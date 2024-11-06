@@ -74,17 +74,24 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: const Text('Atrações'),
       ),
-      body: const Placeholder(),
+      body: ListView.builder(
+        itemCount: listaAtracoes.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(listaAtracoes[index].nome),
+          );
+        },
+      ),
     );
   }
 }
 
 class Atracao {
-  final String name;
+  final String nome;
   final int dia;
   final List<String> tags;
 
-  const Atracao(this.name, this.dia, this.tags);
+  const Atracao(this.nome, this.dia, this.tags);
 }
 
 const listaAtracoes = [
