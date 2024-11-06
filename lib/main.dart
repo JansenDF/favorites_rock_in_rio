@@ -56,6 +56,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final List<Atracao> listaFavoritos = [];
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -64,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
@@ -77,21 +80,33 @@ class _MyHomePageState extends State<MyHomePage> {
       body: ListView.builder(
         itemCount: listaAtracoes.length,
         itemBuilder: (context, index) {
+          final atracao = listaAtracoes[index];
+          final isFavorite = listaFavoritos.contains(atracao);
           return ListTile(
-            title: Text(listaAtracoes[index].nome),
+            title: Text(atracao.nome),
             subtitle: Wrap(
               spacing: 8,
               runSpacing: 4,
-              children: listaAtracoes[index]
-                  .tags
+              children: atracao.tags
                   .map((tag) => Chip(label: Text('#$tag')))
                   .toList(),
             ),
             leading: CircleAvatar(
-              child: Text('${listaAtracoes[index].dia}'),
+              child: Text('${atracao.dia}'),
             ),
-            trailing:
-                IconButton(onPressed: () {}, icon: const Icon(Icons.favorite)),
+            trailing: IconButton(
+                onPressed: () {
+                  setState(() {
+                    if (isFavorite) {
+                      listaFavoritos.remove(atracao);
+                    } else {
+                      listaFavoritos.add(atracao);
+                    }
+                  });
+                },
+                icon: isFavorite
+                    ? const Icon(Icons.favorite, color: Colors.red)
+                    : const Icon(Icons.favorite)),
           );
         },
       ),
