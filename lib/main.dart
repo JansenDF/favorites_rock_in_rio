@@ -79,6 +79,19 @@ class _MyHomePageState extends State<MyHomePage> {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(listaAtracoes[index].nome),
+            subtitle: Wrap(
+              spacing: 8,
+              runSpacing: 4,
+              children: listaAtracoes[index]
+                  .tags
+                  .map((tag) => Chip(label: Text('#$tag')))
+                  .toList(),
+            ),
+            leading: CircleAvatar(
+              child: Text('${listaAtracoes[index].dia}'),
+            ),
+            trailing:
+                IconButton(onPressed: () {}, icon: const Icon(Icons.favorite)),
           );
         },
       ),
